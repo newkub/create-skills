@@ -5,8 +5,7 @@
 	"type": "module",
 	"files": [
 		"dist",
-		"README.md",
-		"./dist"
+		"README.md"
 	],
 	"module": "./dist/index.js",
 	"main": "./dist/index.cjs",
