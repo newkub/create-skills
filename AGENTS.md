@@ -6,7 +6,7 @@ Create-skills is a Bun CLI for orchestrating Devin skills, MCP servers, subagent
 
 ## Scope
 
-- `src/presentation/cli.ts` — CLI entry point using `commander`
+- `src/presentation/cli.ts` — CLI entry point using `cac`
 - `src/domain/` — pure skill parsing logic
 - `src/application/` — orchestration for skills and subagents
 - `src/adapters/` — process and MCP adapters
@@ -26,5 +26,6 @@ Create-skills is a Bun CLI for orchestrating Devin skills, MCP servers, subagent
 
 - TypeScript ESM, `type: "module"`
 - Clean Architecture: domain → application → adapters → presentation
-- Use `commander` for CLI, `chalk` for output
+- Use `cac` for CLI parsing and `picocolors` for output
+- Use Bun native APIs (`Bun.file`, `Bun.write`, `Bun.spawn`, `Bun.Glob`) instead of `node:*` modules
 - Keep files under 250 lines

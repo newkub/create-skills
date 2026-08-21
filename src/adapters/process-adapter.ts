@@ -17,7 +17,9 @@ interface McpConfigMap {
 }
 
 async function loadMcpConfig(): Promise<McpConfigMap> {
-	const text = await Bun.file(MCP_CONFIG_FILE).text();
+	const file = Bun.file(MCP_CONFIG_FILE);
+	if (!(await file.exists())) return {};
+	const text = await file.text();
 	return JSON.parse(text) as McpConfigMap;
 }
 

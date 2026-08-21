@@ -2,7 +2,7 @@
 
 > Devin skill orchestration CLI
 
-`create-skills` is a small, zero-runtime-dependency CLI for orchestrating Devin skills, MCP servers, subagents, and other CLI tools.
+`create-skills` is a small CLI for orchestrating Devin skills, MCP servers, subagents, and other CLI tools. It uses `cac` for argument parsing, `picocolors` for output, and Bun native APIs instead of `node:*` modules. The build bundles dependencies so the published package has zero runtime dependencies.
 
 ## Get Started
 
@@ -64,7 +64,7 @@ create-skills invoke follow-write-devin-skills --local
 
 - **Goal**: Provide a single CLI for running CLIs, calling MCPs, managing subagents, and invoking skills.
 - **Scope**: Bun + TypeScript CLI with Clean Architecture.
-- **Tech Stack**: Bun, TypeScript, `bunup`
+- **Tech Stack**: Bun, TypeScript, `bunup`, `cac`, `picocolors`
 
 ## Development
 

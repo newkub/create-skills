@@ -8,7 +8,7 @@ const config: BunupConfig = {
 	clean: true,
 	sourcemap: true,
 	minify: true,
-	target: "node",
+	target: "bun",
 	outDir: "./dist",
 	exports: true,
 };
