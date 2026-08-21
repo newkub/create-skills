@@ -52,6 +52,9 @@
 		"scan": "ast-grep scan",
 		"check": "bun run lint && bun run typecheck && bun run scan",
 		"verify": "bun run check && bun run test && bun run build",
+		"dev:docs": "bunx --bun vitepress dev docs",
+		"build:docs": "bunx --bun vitepress build docs",
+		"preview:docs": "bunx --bun vitepress preview docs",
 		"clean": "bunx rimraf dist node_modules",
 		"deps:analyze": "bunx depcheck"
 	},
