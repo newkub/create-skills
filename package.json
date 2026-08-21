@@ -5,7 +5,8 @@
 	"type": "module",
 	"files": [
 		"dist",
-		"README.md"
+		"README.md",
+		"./dist"
 	],
 	"module": "./dist/index.js",
 	"main": "./dist/index.cjs",
@@ -54,13 +55,11 @@
 		"clean": "bunx rimraf dist node_modules",
 		"deps:analyze": "bunx depcheck"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"cac": "^6.7.14",
+		"picocolors": "^1.1.1"
+	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.8",
-		"@types/bun": "^1.3.14",
-		"@types/node": "^26.2.0",
-		"@wrikka/default-config": "workspace:*",
-		"bunup": "^0.16.32",
-		"typescript": "^7.0.2"
+		"bunup": "^0.16.32"
 	}
 }

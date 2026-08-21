@@ -1,20 +1,18 @@
-import { existsSync, readdirSync } from "node:fs";
-import { join } from "node:path";
 import { GLOBAL_SKILLS_DIR, LOCAL_SKILLS_DIR } from "../shared/config.js";
 import type { SkillInfo } from "../shared/types.js";
 
-export function findSkillPath(
+export async function findSkillPath(
 	name: string,
 	searchLocal: boolean,
 	searchGlobal: boolean,
-): string | undefined {
+): Promise<string | undefined> {
 	if (searchLocal) {
-		const localPath = join(LOCAL_SKILLS_DIR, name, "SKILL.md");
-		if (existsSync(localPath)) return localPath;
+		const localPath = `${LOCAL_SKILLS_DIR}/${name}/SKILL.md`;
+		if (await Bun.file(localPath).exists()) return localPath;
 	}
 	if (searchGlobal) {
-		const globalPath = join(GLOBAL_SKILLS_DIR, name, "SKILL.md");
-		if (existsSync(globalPath)) return globalPath;
+		const globalPath = `${GLOBAL_SKILLS_DIR}/${name}/SKILL.md`;
+		if (await Bun.file(globalPath).exists()) return globalPath;
 	}
 	return undefined;
 }
@@ -43,21 +41,22 @@ function parseFrontmatter(content: string, key: string): string | undefined {
 	return match ? match[1].trim() : undefined;
 }
 
-export function listSkills(): string[] {
+async function collectSkills(dir: string): Promise<string[]> {
 	const skills: string[] = [];
-	if (existsSync(LOCAL_SKILLS_DIR)) {
-		for (const dir of readdirSync(LOCAL_SKILLS_DIR)) {
-			if (existsSync(join(LOCAL_SKILLS_DIR, dir, "SKILL.md"))) {
-				skills.push(`${dir} (local)`);
-			}
+	try {
+		const pattern = new Bun.Glob("*/SKILL.md");
+		for await (const file of pattern.scan(dir)) {
+			const name = file.split(/[\\/]/)[0] ?? file;
+			skills.push(`${name} (${dir === LOCAL_SKILLS_DIR ? "local" : "global"})`);
 		}
-	}
-	if (existsSync(GLOBAL_SKILLS_DIR)) {
-		for (const dir of readdirSync(GLOBAL_SKILLS_DIR)) {
-			if (existsSync(join(GLOBAL_SKILLS_DIR, dir, "SKILL.md"))) {
-				skills.push(`${dir} (global)`);
-			}
-		}
+	} catch {
+		// directory does not exist
 	}
 	return skills;
+}
+
+export async function listSkills(): Promise<string[]> {
+	const local = await collectSkills(LOCAL_SKILLS_DIR);
+	const global = await collectSkills(GLOBAL_SKILLS_DIR);
+	return [...local, ...global];
 }

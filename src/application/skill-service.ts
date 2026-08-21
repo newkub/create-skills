@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { findSkillPath, listSkills, parseSkill } from "../domain/skill.js";
 import type { Logger } from "../shared/types.js";
 
@@ -7,12 +6,12 @@ export async function invokeSkill(
 	options: { local: boolean; global: boolean },
 	logger: Logger,
 ): Promise<string | undefined> {
-	const path = findSkillPath(name, options.local, options.global);
+	const path = await findSkillPath(name, options.local, options.global);
 	if (!path) {
 		logger.error(`Skill not found: ${name}`);
 		return undefined;
 	}
-	const content = readFileSync(path, "utf-8");
+	const content = await Bun.file(path).text();
 	const skill = parseSkill(content);
 	skill.path = path;
 
@@ -32,8 +31,8 @@ export async function invokeSkill(
 	return path;
 }
 
-export function listAvailableSkills(logger: Logger): string[] {
-	const skills = listSkills();
+export async function listAvailableSkills(logger: Logger): Promise<string[]> {
+	const skills = await listSkills();
 	logger.info(`Found ${skills.length} skills`);
 	for (const skill of skills) {
 		console.log(`  ${skill}`);

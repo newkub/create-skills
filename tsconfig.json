@@ -1,12 +1,16 @@
 {
-	"extends": "../../../packages/default-config/tsconfig.base.json",
 	"compilerOptions": {
-		"composite": true,
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
 		"rootDir": "./src",
-		"noEmit": false,
 		"outDir": "./dist",
-		"types": ["bun", "node"]
+		"noEmit": true,
+		"types": ["bun"]
 	},
-	"include": ["src"],
-	"exclude": ["node_modules", "dist"]
+	"include": ["src", "test"]
 }

@@ -1,5 +1,4 @@
 import { describe, expect, it } from "bun:test";
-import { sep } from "node:path";
 import { findSkillPath, listSkills, parseSkill } from "../src/domain/skill.js";
 
 describe("skill domain", () => {
@@ -12,16 +11,16 @@ describe("skill domain", () => {
 		expect(skill.execute).toContain("1. Step one");
 	});
 
-	it("lists skills without error", () => {
-		const skills = listSkills();
+	it("lists skills without error", async () => {
+		const skills = await listSkills();
 		expect(Array.isArray(skills)).toBe(true);
 	});
 
-	it("finds a known global skill", () => {
-		const path = findSkillPath("follow-create-bun-cli", false, true);
+	it("finds a known global skill", async () => {
+		const path = await findSkillPath("follow-create-bun-cli", false, true);
 		if (path) {
-			const suffix = `follow-create-bun-cli${sep}SKILL.md`;
-			expect(path.endsWith(suffix)).toBe(true);
+			const suffix = "follow-create-bun-cli/SKILL.md";
+			expect(path.endsWith(suffix) || path.endsWith("follow-create-bun-cli\\SKILL.md")).toBe(true);
 		}
 	});
 });
