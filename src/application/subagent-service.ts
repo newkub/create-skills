@@ -30,12 +30,14 @@ export async function delegateToSubagent(
 		return;
 	}
 	const inbox = `${SUBAGENTS_DIR}/${name}/inbox.jsonl`;
-	const existing = (await Bun.file(inbox).exists()) ? await Bun.file(inbox).text() : "";
+	const existing = (await Bun.file(inbox).exists())
+		? await Bun.file(inbox).text()
+		: "";
 	const entry = {
 		type: "delegate",
 		message,
 		timestamp: new Date().toISOString(),
 	};
-	await Bun.write(inbox, existing + `${JSON.stringify(entry)}\n`);
+	await Bun.write(inbox, `${existing}${JSON.stringify(entry)}\n`);
 	logger.info(`Delegated to ${name}: ${message}`);
 }

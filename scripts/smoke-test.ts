@@ -20,7 +20,11 @@ async function main() {
 	await spawnSubagent("smoke", "Run smoke test", ".", logger);
 
 	// 3. run a safe CLI
-	const code = await runCommand("bun", ["-e", "console.log('smoke-ok')"], logger);
+	const code = await runCommand(
+		"bun",
+		["-e", "console.log('smoke-ok')"],
+		logger,
+	);
 	if (code !== 0) throw new Error(`run command failed with code ${code}`);
 
 	// 4. call a missing MCP (should warn, not throw)

@@ -1,31 +1,74 @@
-# AGENTS.md
+﻿---
+name: @wrikka/create-skills
+description: Devin skill orchestration CLI - run, call, spawn, delegate, and invoke
+related:
+  - follow-create-devin-skills
+  - follow-skills-map
+  - improve-codebase
+  - optimize-codebase
+  - ask-me
+---
 
 ## Goal
 
-Create-skills is a Bun CLI for orchestrating Devin skills, MCP servers, subagents, and CLI execution.
+Agent guidance for the `@wrikka/create-skills` workspace.
 
 ## Scope
 
-- `src/presentation/cli.ts` — CLI entry point using `cac`
-- `src/domain/` — pure skill parsing logic
-- `src/application/` — orchestration for skills and subagents
-- `src/adapters/` — process and MCP adapters
-- `src/shared/` — types, logger, config
-- `test/` — Bun tests
-- `scripts/` — smoke test and helper scripts
+This workspace lives in `apps/cli/create-skills` within the monorepo.
 
-## Key Commands
+## Execute
 
-- `bun run dev` — run CLI in dev mode
-- `bun run build` — build with `bunup`
-- `bun run test` — run tests
-- `bun run check` — lint, typecheck, scan
-- `bun run scripts/smoke-test.ts` — smoke test
+Run the following scripts from `apps/cli/create-skills`:
 
-## Conventions
+| Script | Command |
+|---|---|
+| `dev` | `bun run src/presentation/cli.ts` |
+| `build` | `bunup` |
+| `build:watch` | `bunup --watch` |
+| `typecheck` | `tsc --noEmit` |
+| `typecheck:watch` | `tsc --noEmit --watch` |
+| `lint` | `biome check` |
+| `lint:fix` | `biome check --write` |
+| `format` | `biome check --write` |
+| `test` | `bun test` |
+| `test:watch` | `bun test --watch` |
+| `test:coverage` | `bun test --coverage` |
+| `scan` | `ast-grep scan` |
+| `check` | `bun run lint && bun run typecheck && bun run scan` |
+| `verify` | `bun run check && bun run test && bun run build` |
+| `dev:docs` | `bunx --bun vitepress dev docs` |
+| `build:docs` | `bunx --bun vitepress build docs` |
+| `preview:docs` | `bunx --bun vitepress preview docs` |
+| `clean` | `bunx rimraf dist node_modules` |
+| `deps:analyze` | `bunx depcheck` |
 
-- TypeScript ESM, `type: "module"`
-- Clean Architecture: domain → application → adapters → presentation
-- Use `cac` for CLI parsing and `picocolors` for output
-- Use Bun native APIs (`Bun.file`, `Bun.write`, `Bun.spawn`, `Bun.Glob`) instead of `node:*` modules
-- Keep files under 250 lines
+### Architecture
+
+| Tech | Skill |
+|---|---|
+| (external) | `tech: /learn-from-web` |
+| bunup | `tech: /follow-bunup` |
+
+### Skills
+
+- follow-create-devin-skills
+- follow-skills-map
+- improve-codebase
+- optimize-codebase
+- ask-me
+
+### Workspaces
+
+- No direct workspace dependencies.
+
+## Rules
+
+- Keep under 250 lines.
+- Map tech stack with `tech: /follow-<skill>`.
+- Map workspace dependencies in `uses:`.
+- Do not duplicate root conventions.
+
+## Expected Outcome
+
+- `@wrikka/create-skills` AGENTS.md is accurate and committed.

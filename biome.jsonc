@@ -1,4 +1,8 @@
 {
-	"extends": "//",
-	"root": false
+	"root": false,
+	"extends": ["../../../biome.jsonc"],
+	"files": {
+		"ignoreUnknown": false,
+		"includes": ["**", "!!**/dist", "!!**/coverage", "!!**/.turbo"]
+	}
 }

@@ -2,8 +2,14 @@
 import cac from "cac";
 import pc from "picocolors";
 import { callMcp, runCommand } from "../adapters/process-adapter.js";
-import { invokeSkill, listAvailableSkills } from "../application/skill-service.js";
-import { delegateToSubagent, spawnSubagent } from "../application/subagent-service.js";
+import {
+	invokeSkill,
+	listAvailableSkills,
+} from "../application/skill-service.js";
+import {
+	delegateToSubagent,
+	spawnSubagent,
+} from "../application/subagent-service.js";
 import { createLogger } from "../shared/logger.js";
 
 const VERSION = "0.1.0";
@@ -36,7 +42,10 @@ cli
 		}
 		const logger = createLogger();
 		const tool = options.tool as string | undefined;
-		const params = JSON.parse((options.params as string) ?? "{}") as Record<string, unknown>;
+		const params = JSON.parse((options.params as string) ?? "{}") as Record<
+			string,
+			unknown
+		>;
 		const result = await callMcp(target, tool, params, logger);
 		if (result !== undefined) console.log(JSON.stringify(result, null, 2));
 	});
@@ -51,7 +60,12 @@ cli
 			process.exit(1);
 		}
 		const logger = createLogger();
-		await spawnSubagent(target, (options.task as string) ?? "", (options.context as string) ?? "", logger);
+		await spawnSubagent(
+			target,
+			(options.task as string) ?? "",
+			(options.context as string) ?? "",
+			logger,
+		);
 	});
 
 cli

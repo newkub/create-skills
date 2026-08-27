@@ -20,7 +20,10 @@ describe("skill domain", () => {
 		const path = await findSkillPath("follow-create-bun-cli", false, true);
 		if (path) {
 			const suffix = "follow-create-bun-cli/SKILL.md";
-			expect(path.endsWith(suffix) || path.endsWith("follow-create-bun-cli\\SKILL.md")).toBe(true);
+			expect(
+				path.endsWith(suffix) ||
+					path.endsWith("follow-create-bun-cli\\SKILL.md"),
+			).toBe(true);
 		}
 	});
 });

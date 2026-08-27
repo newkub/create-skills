@@ -30,7 +30,7 @@ The project relies on Devin global skills such as:
 
 - `/follow-create-bun-cli` — Bun CLI conventions
 - `/use-bun-native-api` — prefer Bun APIs
-- `/follow-write-devin-skills` — skill authoring guidance
+- `/follow-create-devin-skills` — skill authoring guidance
 - `/update-readme` — README maintenance
 - `/update-docs` — VitePress documentation
 

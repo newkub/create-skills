@@ -38,7 +38,7 @@ create-skills delegate-to agent-1 --message "start review"
 
 ```bash
 create-skills invoke follow-create-bun-cli
-create-skills invoke follow-write-devin-skills --local
+create-skills invoke follow-create-devin-skills --local
 ```
 
 ## List skills

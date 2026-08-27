@@ -7,7 +7,9 @@ export async function runCommand(
 	logger: Logger,
 ): Promise<number> {
 	logger.info(`Running: ${[command, ...args].join(" ")}`);
-	const proc = Bun.spawn([command, ...args], { stdio: ["inherit", "inherit", "inherit"] });
+	const proc = Bun.spawn([command, ...args], {
+		stdio: ["inherit", "inherit", "inherit"],
+	});
 	await proc.exited;
 	return proc.exitCode ?? 1;
 }
@@ -60,7 +62,7 @@ export async function callMcp(
 		stdio: ["pipe", "pipe", "pipe"],
 	});
 
-	const writer = proc.stdin.getWriter();
+	const writer = proc.stdin;
 	const encoder = new TextEncoder();
 
 	const initRequest = {
@@ -78,8 +80,8 @@ export async function callMcp(
 		method: "notifications/initialized",
 	};
 
-	writer.write(encoder.encode(JSON.stringify(initRequest) + "\n"));
-	writer.write(encoder.encode(JSON.stringify(initNotification) + "\n"));
+	writer.write(encoder.encode(`${JSON.stringify(initRequest)}\n`));
+	writer.write(encoder.encode(`${JSON.stringify(initNotification)}\n`));
 
 	if (tool) {
 		const callRequest = {
@@ -88,10 +90,10 @@ export async function callMcp(
 			method: "tools/call",
 			params: { name: tool, arguments: params },
 		};
-		writer.write(encoder.encode(JSON.stringify(callRequest) + "\n"));
+		writer.write(encoder.encode(`${JSON.stringify(callRequest)}\n`));
 	}
 
-	await writer.close();
+	writer.end();
 
 	let result: unknown;
 	const timeout = setTimeout(() => {
@@ -101,7 +103,11 @@ export async function callMcp(
 	try {
 		for await (const line of readLines(proc.stdout)) {
 			try {
-				const message = JSON.parse(line) as { id?: number; result?: unknown; error?: unknown };
+				const message = JSON.parse(line) as {
+					id?: number;
+					result?: unknown;
+					error?: unknown;
+				};
 				if (message.id === 2) {
 					result = "error" in message ? message.error : message.result;
 					break;
