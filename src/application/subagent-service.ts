@@ -6,13 +6,14 @@ export async function spawnSubagent(
 	task: string,
 	context: string,
 	logger: Logger,
+	now: number = Date.now(),
 ): Promise<void> {
 	const taskFile = `${SUBAGENTS_DIR}/${name}/task.json`;
 	const payload: SubagentTask = {
 		name,
 		task,
 		context,
-		createdAt: new Date().toISOString(),
+		createdAt: new Date(now).toISOString(),
 	};
 	await Bun.write(taskFile, JSON.stringify(payload, null, 2));
 	logger.info(`Spawned subagent: ${name}`);
@@ -23,6 +24,7 @@ export async function delegateToSubagent(
 	name: string,
 	message: string,
 	logger: Logger,
+	now: number = Date.now(),
 ): Promise<void> {
 	const taskFile = `${SUBAGENTS_DIR}/${name}/task.json`;
 	if (!(await Bun.file(taskFile).exists())) {
@@ -36,7 +38,7 @@ export async function delegateToSubagent(
 	const entry = {
 		type: "delegate",
 		message,
-		timestamp: new Date().toISOString(),
+		timestamp: new Date(now).toISOString(),
 	};
 	await Bun.write(inbox, `${existing}${JSON.stringify(entry)}\n`);
 	logger.info(`Delegated to ${name}: ${message}`);
