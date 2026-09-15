@@ -3,6 +3,6 @@
 	"extends": ["../../../biome.jsonc"],
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!!**/dist", "!!**/coverage", "!!**/.turbo"]
+		"includes": ["!!**/dist", "!!**/coverage"]
 	}
 }
